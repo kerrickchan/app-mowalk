@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MoWalk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0a09;
+  --surface: #161210;
+  --surface-2: #1e1916;
+  --surface-3: #28221e;
+  --accent: #c87533;
+  --accent-light: #e89556;
+  --accent-glow: rgba(200, 117, 51, 0.3);
+  --text: #ece3d9;
+  --text-muted: #8a7a6a;
+  --text-dim: #5a4e42;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --nav-h: 64px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  height: 100%;
+  display: flex; flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Noise overlay */
+#app::after {
+  content: ''; position: fixed; inset: 0;
+  pointer-events: none; z-index: 9998;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* Screens */
+.screen { display: none; height: 100%; overflow-y: auto; padding-bottom: calc(var(--nav-h) + 8px); }
+.screen.active { display: block; }
+.screen-content { padding: 24px 20px 0; max-width: 480px; margin: 0 auto; }
+
+/* Scrollbar */
+.screen::-webkit-scrollbar { width: 3px; }
+.screen::-webkit-scrollbar-track { background: transparent; }
+.screen::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 2px; }
+
+/* Header */
+.header { display: flex; justify-content: space-between; align-items: center; padding: 8px 0 4px; }
+.brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+.brand em { font-style: italic; color: var(--accent); }
+.header-date { font-size: 12px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; }
+
+/* Step Counter */
+.step-section { text-align: center; padding: 24px 0 16px; }
+.goal-ring-wrap { position: relative; display: inline-block; width: 210px; height: 210px; }
+.goal-ring-wrap svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+.goal-ring-bg { fill: none; stroke: var(--surface-2); stroke-width: 4; }
+.goal-ring-fg { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+.goal-ring-glow { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; filter: blur(6px); opacity: 0.4; transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+.step-number-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.step-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 56px; font-weight: 700; line-height: 1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #fff 30%, var(--accent-light) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.step-label { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-top: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* Stats Row */
+.stats-row { display: flex; gap: 12px; margin: 8px 0 20px; }
+.stat-card { flex: 1; background: var(--surface); border-radius: var(--radius-sm); padding: 14px 12px; text-align: center; border: 1px solid var(--surface-2); }
+.stat-value { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.stat-value .unit { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+.stat-label { font-size: 11px; color: var(--text-dim); font-weight: 500; margin-top: 3px; letter-spacing: 0.3px; text-transform: uppercase; }
+
+/* Card */
+.card { background: var(--surface); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; border: 1px solid var(--surface-2); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.card-title { font-size: 14px; font-weight: 600; letter-spacing: 0.2px; }
+.card-link { font-size: 12px; color: var(--accent); cursor: pointer; transition: opacity .2s; }
+.card-link:hover { opacity: 0.7; }
+#miniChart { width: 100%; height: 60px; display: block; }
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(12, 10, 9, 0.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex; align-items: center; z-index: 100;
+  max-width: 480px; margin: 0 auto;
+}
+.bottom-nav-inner { display: flex; width: 100%; justify-content: space-around; padding: 0 8px; }
+.nav-item {
+  background: none; border: none; color: var(--text-dim); cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 12px; transition: color .2s; position: relative;
+  font-family: inherit; font-size: 10px; font-weight: 500; letter-spacing: 0.3px;
+}
+.nav-item svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.5; fill: none; }
+.nav-item.active { color: var(--accent); }
+.nav-item.active::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 2px; background: var(--accent); border-radius: 0 0 2px 2px;
+}
+
+/* === TRENDS === */
+.trends-toggle { display: flex; gap: 4px; background: var(--surface); border-radius: 8px; padding: 3px; margin: 16px 0; border: 1px solid var(--surface-2); }
+.trends-toggle button {
+  flex: 1; border: none; background: none; color: var(--text-muted); font-family: inherit;
+  font-size: 13px; font-weight: 600; padding: 8px; border-radius: 6px; cursor: pointer;
+  transition: all .25s;
+}
+.trends-toggle button.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px var(--accent-glow); }
+#chartCanvas { width: 100%; height: 220px; display: block; margin: 4px 0; }
+.chart-detail { display: none; background: var(--surface-2); border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 12px; }
+.chart-detail.show { display: block; }
+.chart-detail-date { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.chart-detail-steps { font-size: 28px; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--accent-light); margin: 2px 0; }
+.chart-detail-meta { font-size: 12px; color: var(--text-dim); }
+
+/* === CALENDAR === */
+.cal-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0 8px; }
+.cal-nav-title { font-size: 16px; font-weight: 600; }
+.cal-nav button { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 4px 8px; transition: color .2s; font-family: inherit; }
+.cal-nav button:hover { color: var(--text); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-day-header { text-align: center; font-size: 11px; color: var(--text-dim); font-weight: 600; padding: 6px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+.cal-day {
+  aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: 8px; cursor: pointer; transition: all .15s; font-size: 13px; font-weight: 500;
+  color: var(--text); position: relative;
+}
+.cal-day:hover { transform: scale(1.08); }
+.cal-day.other-month { color: var(--text-dim); opacity: 0.3; }
+.cal-day.today { font-weight: 700; }
+.cal-day.today::after { content: ''; position: absolute; bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+.cal-day.selected { outline: 2px solid var(--accent); outline-offset: -2px; }
+.cal-day .day-step { font-size: 7px; color: var(--text-dim); margin-top: 1px; }
+
+/* === SETTINGS === */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; letter-spacing: 0.2px; text-transform: uppercase; }
+.form-input { width: 100%; background: var(--surface); border: 1px solid var(--surface-2); border-radius: 8px; padding: 12px 14px; font-size: 15px; font-family: inherit; color: var(--text); outline: none; transition: border-color .2s; }
+.form-input:focus { border-color: var(--accent); }
+
+.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--surface-2); }
+.toggle-row:last-child { border: none; }
+.toggle-label { font-size: 14px; font-weight: 500; }
+.toggle-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; cursor: pointer; }
+.toggle input { display: none; }
+.toggle-slider { position: absolute; inset: 0; background: var(--surface-2); border-radius: 13px; transition: background .25s; }
+.toggle-slider::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: var(--text); border-radius: 50%; transition: transform .25s, background .25s; }
+.toggle input:checked + .toggle-slider { background: var(--accent); }
+.toggle input:checked + .toggle-slider::after { transform: translateX(20px); background: #fff; }
+
+.btn-danger { width: 100%; padding: 13px; border: none; border-radius: 8px; background: transparent; color: #e05050; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; border: 1px solid rgba(224,80,80,0.2); transition: all .2s; margin-top: 8px; }
+.btn-danger:hover { background: rgba(224,80,80,0.08); border-color: rgba(224,80,80,0.4); }
+.export-btn { width: 100%; padding: 13px; border: none; border-radius: 8px; background: var(--surface-2); color: var(--text); font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background .2s; }
+.export-btn:hover { background: var(--surface-3); }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--surface-2); border-radius: var(--radius); padding: 24px; max-width: 340px; width: 100%; text-align: center; }
+.modal h3 { font-size: 18px; margin-bottom: 8px; }
+.modal p { font-size: 14px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 8px; }
+.modal-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: opacity .2s; }
+.modal-btn.cancel { background: var(--surface-3); color: var(--text); }
+.modal-btn.confirm { background: #e05050; color: #fff; }
+.modal-btn:hover { opacity: 0.85; }
+
+/* Animations */
+.screen.active { animation: screenIn .35s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes screenIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.stagger-fade > * { opacity: 0; animation: fadeUp .5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.stagger-fade > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-fade > *:nth-child(2) { animation-delay: 0.15s; }
+.stagger-fade > *:nth-child(3) { animation-delay: 0.25s; }
+.stagger-fade > *:nth-child(4) { animation-delay: 0.35s; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Hover glow on ring */
+.goal-ring-wrap:hover .goal-ring-glow { opacity: 0.6; }
+
+@media (min-width: 481px) { .bottom-nav { left: 50%; transform: translateX(-50%); } }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+<!-- DASHBOARD -->
+<div class="screen active" data-screen="dashboard">
+  <div class="screen-content stagger-fade">
+    <div class="header">
+      <div class="brand"><em>Mo</em>Walk</div>
+      <div class="header-date" id="headerDate"></div>
+    </div>
+
+    <div class="step-section">
+      <div class="goal-ring-wrap" id="goalRing">
+        <svg viewBox="0 0 200 200">
+          <circle class="goal-ring-bg" cx="100" cy="100" r="86"/>
+          <circle class="goal-ring-glow" cx="100" cy="100" r="86" stroke-dasharray="540.35" stroke-dashoffset="540.35" id="ringGlow"/>
+          <circle class="goal-ring-fg" cx="100" cy="100" r="86" stroke-dasharray="540.35" stroke-dashoffset="540.35" id="ringFg"/>
+        </svg>
+        <div class="step-number-wrap">
+          <div class="step-number" id="stepNumber">0</div>
+          <div class="step-label">Steps Today</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value"><span id="distValue">0.0</span> <span class="unit">km</span></div>
+        <div class="stat-label">Distance</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><span id="calValue">0</span> <span class="unit">kcal</span></div>
+        <div class="stat-label">Calories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value"><span id="goalValue">0</span> <span class="unit">%</span></div>
+        <div class="stat-label">Goal</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">This Week</span>
+        <span class="card-link" onclick="switchScreen('trends')">View All</span>
+      </div>
+      <canvas id="miniChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- TRENDS -->
+<div class="screen" data-screen="trends">
+  <div class="screen-content">
+    <div class="header">
+      <div class="brand" style="font-size:18px;">Trends</div>
+      <div class="header-date" id="trendsDate"></div>
+    </div>
+    <div class="trends-toggle">
+      <button class="active" data-range="week">This Week</button>
+      <button data-range="month">This Month</button>
+    </div>
+    <div class="card" style="padding:12px 12px 8px;">
+      <canvas id="chartCanvas"></canvas>
+    </div>
+    <div class="chart-detail" id="chartDetail">
+      <div class="chart-detail-date" id="chartDetailDate"></div>
+      <div class="chart-detail-steps" id="chartDetailSteps"></div>
+      <div class="chart-detail-meta" id="chartDetailMeta"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div class="screen" data-screen="calendar">
+  <div class="screen-content">
+    <div class="header">
+      <div class="brand" style="font-size:18px;">Calendar</div>
+      <div class="header-date" id="calDate"></div>
+    </div>
+    <div class="cal-nav">
+      <button id="calPrev">&larr;</button>
+      <div class="cal-nav-title" id="calTitle">May 2026</div>
+      <button id="calNext">&rarr;</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="screen" data-screen="settings">
+  <div class="screen-content">
+    <div class="header">
+      <div class="brand" style="font-size:18px;">Settings</div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <div class="form-group">
+        <label>Height (cm)</label>
+        <input class="form-input" type="number" value="175" min="100" max="250">
+      </div>
+      <div class="form-group">
+        <label>Weight (kg)</label>
+        <input class="form-input" type="number" value="70" min="30" max="250">
+      </div>
+      <div class="form-group">
+        <label>Daily Goal (steps)</label>
+        <input class="form-input" type="number" value="10000" min="1000" max="50000">
+      </div>
+    </div>
+
+    <div style="margin:24px 0 16px;border-top:1px solid var(--surface-2);padding-top:4px;">
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Health Connect Sync</div>
+          <div class="toggle-desc">Sync steps with Health Connect</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" checked id="hcToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Goal Notifications</div>
+          <div class="toggle-desc">Alert when daily goal is reached</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="notifToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <button class="export-btn">Export CSV</button>
+    <button class="btn-danger" onclick="showClearModal()">Clear All Data</button>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="nav-item active" data-screen="dashboard">
+      <svg viewBox="0 0 24 24"><path d="M3 13h4v8H3zM10 3h4v18h-4zM17 9h4v12h-4z"/></svg>
+      <span>Dashboard</span>
+    </button>
+    <button class="nav-item" data-screen="trends">
+      <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <span>Trends</span>
+    </button>
+    <button class="nav-item" data-screen="calendar">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Calendar</span>
+    </button>
+    <button class="nav-item" data-screen="settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Settings</span>
+    </button>
+  </div>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="clearModal">
+  <div class="modal">
+    <h3>Clear All Data?</h3>
+    <p>This will permanently delete all step history and profile settings. This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="hideClearModal()">Cancel</button>
+      <button class="modal-btn confirm" onclick="clearData()">Delete All</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// === DATA ===
+const today = new Date();
+const fmtDate = (d) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+const fmtShort = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+
+const MSEED = 8247;
+function seededSteps(base, i) {
+  let n = base + Math.sin(i * 1.7) * 2800 + Math.sin(i * 0.3) * 1500 + (i % 7 === 0 ? 1200 : i % 6 === 0 ? -800 : 0);
+  return Math.round(Math.max(n, 800));
+}
+
+const weekData = [];
+for (let i = 6; i >= 0; i--) {
+  const d = new Date(today); d.setDate(d.getDate() - i);
+  weekData.push({ date: ymd(d), steps: seededSteps(MSEED - i * 300, i), display: fmtShort(d) });
+}
+
+const monthData = [];
+for (let i = 29; i >= 0; i--) {
+  const d = new Date(today); d.setDate(d.getDate() - i);
+  monthData.push({ date: ymd(d), steps: seededSteps(MSEED - i * 120, i * 0.7), display: d.getDate().toString() });
+}
+
+// === DOM REFS ===
+const $ = (id) => document.getElementById(id);
+const stepNum = $('stepNumber');
+const distVal = $('distValue');
+const calVal = $('calValue');
+const goalVal = $('goalValue');
+const ringFg = $('ringFg');
+const ringGlow = $('ringGlow');
+const headerDate = $('headerDate');
+
+const C = 540.35; // circumference
+
+// === ANIMATED COUNTER ===
+function animateNumber(el, target, duration = 1200) {
+  const start = performance.now();
+  const from = parseFloat(el.textContent.replace(/,/g, '')) || 0;
+  function tick(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
+    const val = Math.round(from + (target - from) * e);
+    el.textContent = val.toLocaleString();
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function animateRing(percent) {
+  const offset = C - (percent / 100) * C;
+  ringFg.style.strokeDashoffset = Math.max(0, offset);
+  ringGlow.style.strokeDashoffset = Math.max(0, offset);
+}
+
+// === DASHBOARD ===
+function updateDashboard() {
+  const todaySteps = weekData[weekData.length - 1].steps;
+  const goal = 10000;
+  const pct = Math.min((todaySteps / goal) * 100, 100);
+  const dist = (todaySteps * 0.65 / 1000);
+  const cal = Math.round(todaySteps * 0.038);
+
+  animateNumber(stepNum, todaySteps);
+  distVal.textContent = dist.toFixed(1);
+  calVal.textContent = cal;
+  goalVal.textContent = Math.round(pct);
+
+  // ring
+  setTimeout(() => animateRing(pct), 100);
+
+  // mini chart
+  drawMiniChart();
+}
+
+// === MINI CHART ===
+let miniChart;
+
+function drawMiniChart() {
+  const c = document.getElementById('miniChart');
+  const rect = c.parentElement.getBoundingClientRect();
+  const W = Math.max(rect.width - 4, 100);
+  const H = 60;
+  const dpr = window.devicePixelRatio || 1;
+  c.width = W * dpr; c.height = H * dpr;
+  c.style.width = W + 'px'; c.style.height = H + 'px';
+  const ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  ctx.clearRect(0, 0, W, H);
+
+  const data = weekData.map(d => d.steps);
+  const max = Math.max(...data) * 1.15;
+  const min = Math.min(...data) * 0.85;
+  const range = max - min;
+  const padL = 0, padR = 0, padT = 4, padB = 4;
+  const cw = W - padL - padR;
+  const ch = H - padT - padB;
+
+  const pts = data.map((v, i) => ({
+    x: padL + (i / (data.length - 1)) * cw,
+    y: padT + ch - ((v - min) / range) * ch
+  }));
+
+  // gradient
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + ch);
+  grad.addColorStop(0, 'rgba(200, 117, 51, 0.4)');
+  grad.addColorStop(1, 'rgba(200, 117, 51, 0)');
+
+  // fill
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, H);
+  for (let i = 0; i < pts.length; i++) {
+    if (i === 0) ctx.lineTo(pts[i].x, pts[i].y);
+    else {
+      const cx = (pts[i-1].x + pts[i].x) / 2;
+      ctx.quadraticCurveTo(pts[i-1].x, pts[i-1].y, cx, (pts[i-1].y + pts[i].y) / 2);
+      if (i === pts.length - 1) ctx.lineTo(pts[i].x, pts[i].y);
+    }
+  }
+  ctx.lineTo(pts[pts.length-1].x, H);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // line
+  ctx.beginPath();
+  for (let i = 0; i < pts.length; i++) {
+    if (i === 0) ctx.moveTo(pts[i].x, pts[i].y);
+    else {
+      const cx = (pts[i-1].x + pts[i].x) / 2;
+      ctx.quadraticCurveTo(pts[i-1].x, pts[i-1].y, cx, (pts[i-1].y + pts[i].y) / 2);
+      if (i === pts.length - 1) ctx.lineTo(pts[i].x, pts[i].y);
+    }
+  }
+  ctx.strokeStyle = '#c87533';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // dot on last
+  const last = pts[pts.length-1];
+  ctx.beginPath();
+  ctx.arc(last.x, last.y, 3, 0, Math.PI * 2);
+  ctx.fillStyle = '#c87533';
+  ctx.fill();
+}
+
+// === TRENDS CHART ===
+let chartRange = 'week';
+let chartCanvas, chartCtx;
+let selectedPoint = null;
+
+function drawChart() {
+  const c = document.getElementById('chartCanvas');
+  if (!c) return;
+  const rect = c.parentElement.getBoundingClientRect();
+  const W = Math.max(rect.width - 8, 200);
+  const H = 220;
+  const dpr = window.devicePixelRatio || 1;
+  c.width = W * dpr; c.height = H * dpr;
+  c.style.width = W + 'px'; c.style.height = H + 'px';
+  const ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+  chartCanvas = c; chartCtx = ctx;
+
+  const data = chartRange === 'week' ? weekData : monthData;
+  const vals = data.map(d => d.steps);
+  const max = Math.max(...vals) * 1.12;
+  const min = Math.min(...vals) * 0.88;
+  const range = max - min;
+
+  const padL = 36, padR = 8, padT = 16, padB = 28;
+  const cw = W - padL - padR;
+  const ch = H - padT - padB;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 4; i++) {
+    const y = padT + (ch / 3) * i;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+  }
+
+  // y labels
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.font = '10px Plus Jakarta Sans, sans-serif';
+  ctx.textAlign = 'right';
+  for (let i = 0; i < 4; i++) {
+    const y = padT + (ch / 3) * i;
+    const val = Math.round(max - (range / 3) * i);
+    ctx.fillText(val.toLocaleString(), padL - 6, y + 3.5);
+  }
+
+  // points
+  const pts = vals.map((v, i) => ({
+    x: padL + (i / Math.max(vals.length - 1, 1)) * cw,
+    y: padT + ch - ((v - min) / range) * ch,
+    val: v,
+    idx: i
+  }));
+
+  // gradient fill
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + ch);
+  grad.addColorStop(0, 'rgba(200, 117, 51, 0.25)');
+  grad.addColorStop(0.6, 'rgba(200, 117, 51, 0.06)');
+  grad.addColorStop(1, 'rgba(200, 117, 51, 0)');
+
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, H);
+  for (let i = 0; i < pts.length; i++) {
+    if (i === 0) ctx.lineTo(pts[i].x, pts[i].y);
+    else {
+      const cx = (pts[i-1].x + pts[i].x) / 2;
+      const cy = (pts[i-1].y + pts[i].y) / 2;
+      ctx.quadraticCurveTo(pts[i-1].x, pts[i-1].y, cx, cy);
+      if (i === pts.length - 1) ctx.lineTo(pts[i].x, pts[i].y);
+    }
+  }
+  ctx.lineTo(pts[pts.length-1].x, H);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // line
+  ctx.beginPath();
+  for (let i = 0; i < pts.length; i++) {
+    if (i === 0) ctx.moveTo(pts[i].x, pts[i].y);
+    else {
+      const cx = (pts[i-1].x + pts[i].x) / 2;
+      const cy = (pts[i-1].y + pts[i].y) / 2;
+      ctx.quadraticCurveTo(pts[i-1].x, pts[i-1].y, cx, cy);
+      if (i === pts.length - 1) ctx.lineTo(pts[i].x, pts[i].y);
+    }
+  }
+  ctx.strokeStyle = '#c87533';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // x labels
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.font = '10px Plus Jakarta Sans, sans-serif';
+  ctx.textAlign = 'center';
+  const labelStep = chartRange === 'week' ? 1 : Math.max(1, Math.floor(pts.length / 5));
+  for (let i = 0; i < pts.length; i += labelStep) {
+    const lbl = chartRange === 'week' ? weekData[i].display : (i + 1).toString();
+    ctx.fillText(lbl, pts[i].x, H - 4);
+  }
+
+  // hit detection
+  canvasPoints = pts;
+}
+
+let canvasPoints = [];
+
+function handleChartClick(e) {
+  if (!chartCanvas || !canvasPoints.length) return;
+  const rect = chartCanvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (chartCanvas.width / rect.width / (window.devicePixelRatio || 1));
+
+  let best = null, bestDist = Infinity;
+  for (const p of canvasPoints) {
+    const d = Math.abs(p.x - mx);
+    if (d < bestDist) { bestDist = d; best = p; }
+  }
+
+  if (!best || bestDist > 40) { hideChartDetail(); return; }
+
+  // redraw with selected indicator
+  drawChart();
+  if (chartCtx) {
+    chartCtx.beginPath();
+    chartCtx.arc(best.x, best.y, 5, 0, Math.PI * 2);
+    chartCtx.fillStyle = '#c87533';
+    chartCtx.fill();
+    chartCtx.beginPath();
+    chartCtx.arc(best.x, best.y, 8, 0, Math.PI * 2);
+    chartCtx.strokeStyle = 'rgba(200, 117, 51, 0.3)';
+    chartCtx.lineWidth = 2;
+    chartCtx.stroke();
+  }
+
+  const data = chartRange === 'week' ? weekData : monthData;
+  const rec = data[best.idx];
+  if (rec) {
+    selectedPoint = rec;
+    $('chartDetailDate').textContent = rec.date;
+    $('chartDetailSteps').textContent = rec.steps.toLocaleString() + ' steps';
+    const dist = (rec.steps * 0.65 / 1000).toFixed(1);
+    const cal = Math.round(rec.steps * 0.038);
+    $('chartDetailMeta').textContent = dist + ' km  ·  ' + cal + ' kcal';
+    $('chartDetail').classList.add('show');
+  }
+}
+
+function hideChartDetail() {
+  $('chartDetail').classList.remove('show');
+  selectedPoint = null;
+}
+
+// === CALENDAR ===
+let calMonth = today.getMonth();
+let calYear = today.getFullYear();
+
+function renderCalendar() {
+  const grid = $('calGrid');
+  grid.innerHTML = '';
+  $('calTitle').textContent = new Date(calYear, calMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  // headers
+  const days = ['S','M','T','W','T','F','S'];
+  days.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-day-header';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  const first = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+
+  // prev month overflow
+  for (let i = first - 1; i >= 0; i--) {
+    const el = document.createElement('div');
+    el.className = 'cal-day other-month';
+    el.textContent = daysInPrev - i;
+    grid.appendChild(el);
+  }
+
+  // current month
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    const dateObj = new Date(calYear, calMonth, d);
+    const dateStr = ymd(dateObj);
+
+    // find steps for this date
+    let steps = 0;
+    for (const rec of monthData) {
+      if (rec.date === dateStr) { steps = rec.steps; break; }
+    }
+    // if not in monthData (future days), seed it
+    if (steps === 0 && dateObj <= today) {
+      steps = seededSteps(MSEED - (today.getTime() - dateObj.getTime()) / 86400000 * 120, d);
+    }
+
+    const pct = Math.min(steps / 10000, 1);
+    const intensity = Math.round(pct * 180 + 50);
+    el.style.background = `rgba(200, 117, 51, ${Math.max(pct * 0.45, 0.05)})`;
+    el.dataset.steps = steps;
+
+    const num = document.createElement('span');
+    num.textContent = d;
+    el.appendChild(num);
+
+    const stepLabel = document.createElement('span');
+    stepLabel.className = 'day-step';
+    stepLabel.textContent = (steps / 1000).toFixed(1) + 'k';
+    el.appendChild(stepLabel);
+
+    if (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear()) {
+      el.classList.add('today');
+    }
+
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.cal-day.selected').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+    });
+
+    grid.appendChild(el);
+  }
+
+  // next month overflow
+  const totalCells = first + daysInMonth;
+  const remaining = (7 - totalCells % 7) % 7;
+  for (let i = 1; i <= remaining; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day other-month';
+    el.textContent = i;
+    grid.appendChild(el);
+  }
+}
+
+// === SETTINGS ===
+function showClearModal() { $('clearModal').classList.add('show'); }
+function hideClearModal() { $('clearModal').classList.remove('show'); }
+function clearData() {
+  hideClearModal();
+  // reset step display
+  stepNum.textContent = '0';
+  distVal.textContent = '0.0';
+  calVal.textContent = '0';
+  goalVal.textContent = '0';
+  ringFg.style.strokeDashoffset = C;
+  ringGlow.style.strokeDashoffset = C;
+}
+
+// === NAVIGATION ===
+function switchScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector(`.screen[data-screen="${id}"]`).classList.add('active');
+  document.querySelector(`.nav-item[data-screen="${id}"]`).classList.add('active');
+
+  if (id === 'dashboard') updateDashboard();
+  if (id === 'trends') { drawChart(); hideChartDetail(); }
+  if (id === 'calendar') renderCalendar();
+}
+
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => switchScreen(btn.dataset.screen));
+});
+
+// === TRENDS TOGGLE ===
+document.querySelectorAll('.trends-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.trends-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    chartRange = btn.dataset.range;
+    hideChartDetail();
+    drawChart();
+  });
+});
+
+// === CALENDAR NAV ===
+$('calPrev').addEventListener('click', () => { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); });
+$('calNext').addEventListener('click', () => { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); });
+
+// === CLICK ON CHART ===
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.trends-toggle') || e.target.closest('#chartCanvas')) return;
+  if (e.target.closest('.nav-item')) return;
+  // don't hide detail unless clicking outside
+});
+
+document.getElementById('chartCanvas')?.addEventListener('click', handleChartClick);
+
+// === INIT ===
+headerDate.textContent = fmtDate(today);
+$('trendsDate').textContent = fmtDate(today);
+$('calDate').textContent = fmtDate(today);
+
+updateDashboard();
+
+// resize handling
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (document.querySelector('.screen[data-screen="dashboard"].active')) updateDashboard();
+    if (document.querySelector('.screen[data-screen="trends"].active')) drawChart();
+  }, 200);
+});
+</script>
+</body>
+</html>
