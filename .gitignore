@@ -1,0 +1,23 @@
+# Xcode
+xcuserdata/
+DerivedData/
+xcuserstate/
+*.xcuserstate
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Android (generated)
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+
+# IDE
+.idea/
+*.iml
+.vscode/
