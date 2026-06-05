@@ -43,3 +43,16 @@ targets:
         NSMotionUsageDescription: "MoWalk uses motion sensors to count your steps throughout the day."
         UIRequiredDeviceCapabilities:
           - arm64
+
+  MoWalkTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: MoWalkTests
+    dependencies:
+      - target: MoWalk
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: "YES"
+        PRODUCT_BUNDLE_IDENTIFIER: com.mowalk.app.tests
+        PRODUCT_NAME: MoWalkTests

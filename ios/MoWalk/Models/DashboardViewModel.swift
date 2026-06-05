@@ -13,11 +13,11 @@ final class DashboardViewModel {
     var isRefreshing: Bool = false
     var error: String?
 
-    private let persistence: PersistenceService
-    private let stepService: StepCounterService
-    private let healthKit: HealthKitService
+    private let persistence: StepPersistence
+    private let stepService: StepCounting
+    private let healthKit: HealthDataAccess
 
-    init(persistence: PersistenceService, stepService: StepCounterService, healthKit: HealthKitService) {
+    init(persistence: StepPersistence, stepService: StepCounting, healthKit: HealthDataAccess) {
         self.persistence = persistence
         self.stepService = stepService
         self.healthKit = healthKit
@@ -40,10 +40,6 @@ final class DashboardViewModel {
             recomputeProgress()
         } catch {
             self.error = error.localizedDescription
-        }
-
-        if isStepCountingAvailable {
-            await startPedometerUpdates()
         }
     }
 
@@ -78,25 +74,6 @@ final class DashboardViewModel {
 
     func clearError() {
         error = nil
-    }
-
-    private func startPedometerUpdates() async {
-        for await data in stepService.startUpdates() {
-            let today = Date.todayISO
-            do {
-                guard let profile = try persistence.getProfile() else { continue }
-                let cal = estimateCalories(steps: data.steps, distance: data.distance, profile: profile)
-                let entry = StepEntry(date: today, steps: data.steps, distance: data.distance, calories: cal)
-                try persistence.upsert(entry)
-
-                todaySteps = data.steps
-                distance = data.distance
-                calories = cal
-                recomputeProgress()
-            } catch {
-                self.error = error.localizedDescription
-            }
-        }
     }
 
     private func recomputeProgress() {

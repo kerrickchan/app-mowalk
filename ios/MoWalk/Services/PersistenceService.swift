@@ -5,9 +5,9 @@ final class PersistenceService {
     private let modelContainer: ModelContainer
     private let modelContext: ModelContext
 
-    init() {
+    init(useInMemoryStore: Bool = false) {
         let schema = Schema([StepEntry.self, UserProfile.self])
-        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: useInMemoryStore)
         do {
             modelContainer = try ModelContainer(for: schema, configurations: [config])
             modelContext = ModelContext(modelContainer)
