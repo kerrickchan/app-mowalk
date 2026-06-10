@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light theme colors -->
+    <color name="primary_light">#006C4C</color>
+    <color name="on_primary_light">#FFFFFF</color>
+    <color name="primary_container_light">#89F8C7</color>
+    <color name="secondary_light">#4B6558</color>
+    <color name="on_secondary_light">#FFFFFF</color>
+    <color name="secondary_container_light">#CEE7D9</color>
+    <color name="tertiary_light">#396A6B</color>
+    <color name="on_tertiary_light">#FFFFFF</color>
+    <color name="background_light">#FDFDF8</color>
+    <color name="on_background_light">#1A1C1A</color>
+    <color name="surface_light">#FDFDF8</color>
+    <color name="on_surface_light">#1A1C1A</color>
+    <color name="surface_variant_light">#DFE4DB</color>
+    <color name="on_surface_variant_light">#434841</color>
+    <color name="error_light">#BA1A1A</color>
+    <color name="on_error_light">#FFFFFF</color>
+
+    <!-- Dark theme colors -->
+    <color name="primary_dark">#6CDB91</color>
+    <color name="on_primary_dark">#003D28</color>
+    <color name="primary_container_dark">#00533A</color>
+    <color name="secondary_dark">#B2CBDC</color>
+    <color name="on_secondary_dark">#233D32</color>
+    <color name="secondary_container_dark">#395448</color>
+    <color name="tertiary_dark">#96D0D1</color>
+    <color name="on_tertiary_dark">#024041</color>
+    <color name="background_dark">#1A1C1A</color>
+    <color name="on_background_dark">#E3E3DE</color>
+    <color name="surface_dark">#1A1C1A</color>
+    <color name="on_surface_dark">#E3E3DE</color>
+    <color name="surface_variant_dark">#434841</color>
+    <color name="on_surface_variant_dark">#C3C8BF</color>
+    <color name="error_dark">#FFB4AB</color>
+    <color name="on_error_dark">#690005</color>
+
+    <!-- Step accent colors -->
+    <color name="step_green">#4CAF50</color>
+    <color name="step_green_dark">#2E7D32</color>
+    <color name="step_amber">#FFC107</color>
+    <color name="step_amber_dark">#FF8F00</color>
+</resources>
