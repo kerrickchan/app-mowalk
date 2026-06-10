@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MoWalk</string>
+
+    <!-- Notification -->
+    <string name="step_channel_name">Step Counting</string>
+    <string name="step_channel_description">Notifies that MoWalk is counting your steps in the background</string>
+    <string name="step_notification_title">Counting steps</string>
+    <string name="step_notification_text">Tap to open MoWalk</string>
+    <string name="stop_service">Stop</string>
+
+    <!-- Dashboard -->
+    <string name="today_steps">Today\'s Steps</string>
+    <string name="steps_unit">steps</string>
+    <string name="distance_unit_km">km</string>
+    <string name="calories_unit_kcal">kcal</string>
+    <string name="goal_progress">%1$d%% of %2,d goal</string>
+    <string name="view_trends">View Trends</string>
+    <string name="view_calendar">Calendar</string>
+
+    <!-- Trends -->
+    <string name="trends_title">Trends</string>
+    <string name="period_week">This Week</string>
+    <string name="period_month">This Month</string>
+
+    <!-- Calendar -->
+    <string name="calendar_title">Calendar</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="profile_section">Profile</string>
+    <string name="height_label">Height (cm)</string>
+    <string name="weight_label">Weight (kg)</string>
+    <string name="daily_goal_label">Daily Step Goal</string>
+    <string name="save">Save</string>
+    <string name="export_section">Data Export</string>
+    <string name="export_csv">Export CSV</string>
+    <string name="export_csv_success">Steps exported successfully</string>
+    <string name="export_csv_error">Failed to export steps</string>
+    <string name="clear_data">Clear All Data</string>
+    <string name="clear_data_confirm">Are you sure? This will permanently delete all your step history and profile data.</string>
+    <string name="clear_data_confirm_title">Clear All Data</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="about_section">About</string>
+    <string name="version">Version %1$s</string>
+    <string name="battery_optimization">For accurate step counting, please exclude MoWalk from battery optimization.</string>
+    <string name="battery_optimization_action">Go to Settings</string>
+
+    <!-- Permission -->
+    <string name="permission_rationale">Activity recognition permission is required to count your steps accurately.</string>
+    <string name="permission_denied">Activity recognition permission is required for this app to function.</string>
+
+    <!-- Empty State -->
+    <string name="empty_state_title">Start Walking</string>
+    <string name="empty_state_description">Begin walking to see your step count and progress</string>
+
+    <!-- Error -->
+    <string name="error_sensor_unavailable">Step counter is not available on this device</string>
+
+    <!-- Calendar -->
+    <string name="day_sunday">Sun</string>
+    <string name="day_monday">Mon</string>
+    <string name="day_tuesday">Tue</string>
+    <string name="day_wednesday">Wed</string>
+    <string name="day_thursday">Thu</string>
+    <string name="day_friday">Fri</string>
+    <string name="day_saturday">Sat</string>
+</resources>

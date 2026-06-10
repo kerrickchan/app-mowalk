@@ -1,0 +1,24 @@
+# Built-in Gradle
+.gradle
+/build
+!/gradle/wrapper/lib/gradle-wrapper.jar
+
+# Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+local.properties
+gradle.properties.example
+
+# App build outputs
+app/build
+app/*.apk
+app/*.aab
+
+# Java
+*.class
+*.jar
+
+# Keep only the default gitignore
+!/.gitignore
