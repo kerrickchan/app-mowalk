@@ -1,0 +1,578 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		13828E76E51EBEBCB2CE76B9 /* PersistenceServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0984A5501FCCB243D8316677 /* PersistenceServiceTests.swift */; };
+		240CF3EC8C4E33EB0BD29260 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D2B4963F345C0C124B1457 /* DashboardViewModel.swift */; };
+		2FF5FD3585BBDD16CEFB22D3 /* TrendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77325BA38FEA0771BFF2502 /* TrendsViewModel.swift */; };
+		3E8DDEC22D18DDB062FF0BF9 /* StepEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1388484068112BCFD0D2B0D /* StepEntry.swift */; };
+		457B8B9BD21603FB1ACD93C7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C1CA660491F7A38237E693 /* SettingsViewModel.swift */; };
+		4F4FDAC2227AF88B1137C229 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D6895B25E22241A25B03A6 /* CalendarView.swift */; };
+		507A56B6D8C2103552836F74 /* StepDeltaCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA3D7CB27A4F4C0CE467A87 /* StepDeltaCalculatorTests.swift */; };
+		53DDC0ED933D80242F378839 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68626168A3E78CE202BC6810 /* DashboardViewModelTests.swift */; };
+		88CB01F946EF69F5FFD40A1E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EC1986CE2CDB0FC7E59833 /* SettingsView.swift */; };
+		982BCD71AE22CC23BD05CB81 /* MoWalkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5928546F1FE26C6EA9AC6EF /* MoWalkApp.swift */; };
+		9C0A85836440C16351ACB68A /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D7B758F9F447837221E7A5 /* Theme.swift */; };
+		A429A208EC911D122E4FE04D /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D64D36BC6C7DA78AE34DBF /* DashboardView.swift */; };
+		A88E9EB7C1514923E3EBFC7E /* TrendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B135194008561CF81D2715 /* TrendsView.swift */; };
+		ACDEE78E3F227C61979FD0BB /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0BB8DA85C428BF07C7B6D1 /* CalendarViewModel.swift */; };
+		AEFF2EDF52CBC438BC667E09 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232B38A5513D8C779AE1E6F8 /* HealthKitService.swift */; };
+		B211F1A21CF9961BBD2C2DBC /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816AEB62E0C2FFE7FB8F3C02 /* Protocols.swift */; };
+		B29B6FD2951690BFB8C05811 /* StatCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB579E3897E276972933F613 /* StatCardView.swift */; };
+		BA37C6548FBF2C07F34DC1D5 /* StepCounterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E0EDF3F5FA980030E592BA /* StepCounterService.swift */; };
+		BFDDF85AFAE555EF92949B9A /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30AA9C20DFCB153D700B267 /* Mocks.swift */; };
+		CDE263E8B79705AF590A0305 /* StepRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46C194D723B41162CA24A67 /* StepRingView.swift */; };
+		E11C4BDAE17D8A3645497F96 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98150FBA54E1BC61CD25F25 /* PersistenceService.swift */; };
+		E56561CFE954FBC703369349 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0BA0349004343054E0F9E /* UserProfile.swift */; };
+		E97982C1A1AFAF591A942449 /* ProgressCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ADD1CCF942E1C1CC3F6D9E /* ProgressCardView.swift */; };
+		EF09D6FA107A9DD4A149CFA0 /* BrandHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7C6A9C72ECD362A55282AA /* BrandHeader.swift */; };
+		EF484B15556B66A1B42EB80A /* StepDeltaCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F86D80DE6349F813182D24 /* StepDeltaCalculator.swift */; };
+		FBF44020B1A2A0286A3710FA /* AppTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633C3B99DDEDBD3F6148DEF0 /* AppTabView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FF1DF69AB0DF76EF8FFD3E2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FCC6E341F1493A612161AC48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 24F26A35CDCAE7CC92B227A8;
+			remoteInfo = MoWalk;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0984A5501FCCB243D8316677 /* PersistenceServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceServiceTests.swift; sourceTree = "<group>"; };
+		19ADD1CCF942E1C1CC3F6D9E /* ProgressCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCardView.swift; sourceTree = "<group>"; };
+		1B7C6A9C72ECD362A55282AA /* BrandHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandHeader.swift; sourceTree = "<group>"; };
+		232B38A5513D8C779AE1E6F8 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		43536187B8BA28F907FF2AE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		56E17EAE32A9D2281EB9667C /* MoWalk.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MoWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F0BB8DA85C428BF07C7B6D1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		60D7B758F9F447837221E7A5 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		61B135194008561CF81D2715 /* TrendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsView.swift; sourceTree = "<group>"; };
+		633C3B99DDEDBD3F6148DEF0 /* AppTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabView.swift; sourceTree = "<group>"; };
+		68626168A3E78CE202BC6810 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
+		76EC1986CE2CDB0FC7E59833 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		816AEB62E0C2FFE7FB8F3C02 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		87A0BA0349004343054E0F9E /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		8EA3D7CB27A4F4C0CE467A87 /* StepDeltaCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDeltaCalculatorTests.swift; sourceTree = "<group>"; };
+		94D6895B25E22241A25B03A6 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		A2E0EDF3F5FA980030E592BA /* StepCounterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCounterService.swift; sourceTree = "<group>"; };
+		A8C1CA660491F7A38237E693 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		C1388484068112BCFD0D2B0D /* StepEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepEntry.swift; sourceTree = "<group>"; };
+		C46C194D723B41162CA24A67 /* StepRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRingView.swift; sourceTree = "<group>"; };
+		C7D64D36BC6C7DA78AE34DBF /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		CB579E3897E276972933F613 /* StatCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCardView.swift; sourceTree = "<group>"; };
+		D4D2B4963F345C0C124B1457 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		D5F86D80DE6349F813182D24 /* StepDeltaCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDeltaCalculator.swift; sourceTree = "<group>"; };
+		E30AA9C20DFCB153D700B267 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		E5928546F1FE26C6EA9AC6EF /* MoWalkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoWalkApp.swift; sourceTree = "<group>"; };
+		E5B380BFF83A3BEE154B58B2 /* MoWalkTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MoWalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E77325BA38FEA0771BFF2502 /* TrendsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsViewModel.swift; sourceTree = "<group>"; };
+		E98150FBA54E1BC61CD25F25 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		050063B08D972E7BDF63713E = {
+			isa = PBXGroup;
+			children = (
+				370E9C8DB6D83DEC98867E61 /* MoWalk */,
+				EEE27AD95A27B9AC4DAA90DA /* MoWalkTests */,
+				216465EEC859DA56E7EA69F5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0D0CAB1D809D075B7E914E0C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43536187B8BA28F907FF2AE3 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1F1FD08E0960C5688004695E /* App */ = {
+			isa = PBXGroup;
+			children = (
+				633C3B99DDEDBD3F6148DEF0 /* AppTabView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		216465EEC859DA56E7EA69F5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				56E17EAE32A9D2281EB9667C /* MoWalk.app */,
+				E5B380BFF83A3BEE154B58B2 /* MoWalkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		302130E5C4082666B5758D84 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				94D6895B25E22241A25B03A6 /* CalendarView.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		370E9C8DB6D83DEC98867E61 /* MoWalk */ = {
+			isa = PBXGroup;
+			children = (
+				E5928546F1FE26C6EA9AC6EF /* MoWalkApp.swift */,
+				1F1FD08E0960C5688004695E /* App */,
+				6C74B330EFE9E248C4443C67 /* Models */,
+				0D0CAB1D809D075B7E914E0C /* Resources */,
+				B7C9B968E20980BF55359479 /* Services */,
+				F35E1B4863F1200DA103D7FA /* Views */,
+			);
+			path = MoWalk;
+			sourceTree = "<group>";
+		};
+		6C74B330EFE9E248C4443C67 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5F0BB8DA85C428BF07C7B6D1 /* CalendarViewModel.swift */,
+				D4D2B4963F345C0C124B1457 /* DashboardViewModel.swift */,
+				A8C1CA660491F7A38237E693 /* SettingsViewModel.swift */,
+				C1388484068112BCFD0D2B0D /* StepEntry.swift */,
+				E77325BA38FEA0771BFF2502 /* TrendsViewModel.swift */,
+				87A0BA0349004343054E0F9E /* UserProfile.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8D21267B7185B50E3A698595 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				76EC1986CE2CDB0FC7E59833 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		95F59D7B537D7847D9F85732 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				1B7C6A9C72ECD362A55282AA /* BrandHeader.swift */,
+				60D7B758F9F447837221E7A5 /* Theme.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B5BC304CF979736A47A786C3 /* Trends */ = {
+			isa = PBXGroup;
+			children = (
+				61B135194008561CF81D2715 /* TrendsView.swift */,
+			);
+			path = Trends;
+			sourceTree = "<group>";
+		};
+		B7C9B968E20980BF55359479 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				232B38A5513D8C779AE1E6F8 /* HealthKitService.swift */,
+				E98150FBA54E1BC61CD25F25 /* PersistenceService.swift */,
+				816AEB62E0C2FFE7FB8F3C02 /* Protocols.swift */,
+				A2E0EDF3F5FA980030E592BA /* StepCounterService.swift */,
+				D5F86D80DE6349F813182D24 /* StepDeltaCalculator.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BE8A846D52EFDB8679F44542 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				C7D64D36BC6C7DA78AE34DBF /* DashboardView.swift */,
+				19ADD1CCF942E1C1CC3F6D9E /* ProgressCardView.swift */,
+				CB579E3897E276972933F613 /* StatCardView.swift */,
+				C46C194D723B41162CA24A67 /* StepRingView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		EEE27AD95A27B9AC4DAA90DA /* MoWalkTests */ = {
+			isa = PBXGroup;
+			children = (
+				68626168A3E78CE202BC6810 /* DashboardViewModelTests.swift */,
+				E30AA9C20DFCB153D700B267 /* Mocks.swift */,
+				0984A5501FCCB243D8316677 /* PersistenceServiceTests.swift */,
+				8EA3D7CB27A4F4C0CE467A87 /* StepDeltaCalculatorTests.swift */,
+			);
+			path = MoWalkTests;
+			sourceTree = "<group>";
+		};
+		F35E1B4863F1200DA103D7FA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				302130E5C4082666B5758D84 /* Calendar */,
+				95F59D7B537D7847D9F85732 /* Components */,
+				BE8A846D52EFDB8679F44542 /* Dashboard */,
+				8D21267B7185B50E3A698595 /* Settings */,
+				B5BC304CF979736A47A786C3 /* Trends */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		24F26A35CDCAE7CC92B227A8 /* MoWalk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80D1911D7D25321BCD91CFB9 /* Build configuration list for PBXNativeTarget "MoWalk" */;
+			buildPhases = (
+				0D4C3DBC336038F8F6C591E5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MoWalk;
+			packageProductDependencies = (
+			);
+			productName = MoWalk;
+			productReference = 56E17EAE32A9D2281EB9667C /* MoWalk.app */;
+			productType = "com.apple.product-type.application";
+		};
+		911679ACDED7996907E8EDD1 /* MoWalkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9787587B080CCC2604AB186E /* Build configuration list for PBXNativeTarget "MoWalkTests" */;
+			buildPhases = (
+				26FF60BCCF9CD7F3357CF5E5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94FABB961E86D594F16A472D /* PBXTargetDependency */,
+			);
+			name = MoWalkTests;
+			packageProductDependencies = (
+			);
+			productName = MoWalkTests;
+			productReference = E5B380BFF83A3BEE154B58B2 /* MoWalkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FCC6E341F1493A612161AC48 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					24F26A35CDCAE7CC92B227A8 = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = D6938EDB309A9463EBA5DA28 /* Build configuration list for PBXProject "MoWalk" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 050063B08D972E7BDF63713E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 216465EEC859DA56E7EA69F5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				24F26A35CDCAE7CC92B227A8 /* MoWalk */,
+				911679ACDED7996907E8EDD1 /* MoWalkTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0D4C3DBC336038F8F6C591E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBF44020B1A2A0286A3710FA /* AppTabView.swift in Sources */,
+				EF09D6FA107A9DD4A149CFA0 /* BrandHeader.swift in Sources */,
+				4F4FDAC2227AF88B1137C229 /* CalendarView.swift in Sources */,
+				ACDEE78E3F227C61979FD0BB /* CalendarViewModel.swift in Sources */,
+				A429A208EC911D122E4FE04D /* DashboardView.swift in Sources */,
+				240CF3EC8C4E33EB0BD29260 /* DashboardViewModel.swift in Sources */,
+				AEFF2EDF52CBC438BC667E09 /* HealthKitService.swift in Sources */,
+				982BCD71AE22CC23BD05CB81 /* MoWalkApp.swift in Sources */,
+				E11C4BDAE17D8A3645497F96 /* PersistenceService.swift in Sources */,
+				E97982C1A1AFAF591A942449 /* ProgressCardView.swift in Sources */,
+				B211F1A21CF9961BBD2C2DBC /* Protocols.swift in Sources */,
+				88CB01F946EF69F5FFD40A1E /* SettingsView.swift in Sources */,
+				457B8B9BD21603FB1ACD93C7 /* SettingsViewModel.swift in Sources */,
+				B29B6FD2951690BFB8C05811 /* StatCardView.swift in Sources */,
+				BA37C6548FBF2C07F34DC1D5 /* StepCounterService.swift in Sources */,
+				EF484B15556B66A1B42EB80A /* StepDeltaCalculator.swift in Sources */,
+				3E8DDEC22D18DDB062FF0BF9 /* StepEntry.swift in Sources */,
+				CDE263E8B79705AF590A0305 /* StepRingView.swift in Sources */,
+				9C0A85836440C16351ACB68A /* Theme.swift in Sources */,
+				A88E9EB7C1514923E3EBFC7E /* TrendsView.swift in Sources */,
+				2FF5FD3585BBDD16CEFB22D3 /* TrendsViewModel.swift in Sources */,
+				E56561CFE954FBC703369349 /* UserProfile.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		26FF60BCCF9CD7F3357CF5E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53DDC0ED933D80242F378839 /* DashboardViewModelTests.swift in Sources */,
+				BFDDF85AFAE555EF92949B9A /* Mocks.swift in Sources */,
+				13828E76E51EBEBCB2CE76B9 /* PersistenceServiceTests.swift in Sources */,
+				507A56B6D8C2103552836F74 /* StepDeltaCalculatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		94FABB961E86D594F16A472D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 24F26A35CDCAE7CC92B227A8 /* MoWalk */;
+			targetProxy = FF1DF69AB0DF76EF8FFD3E2F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1474ABF5B70256247746D1CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoWalk/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mowalk.app;
+				PRODUCT_NAME = MoWalk;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		61828D81C42542EBB97A8C2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mowalk.app.tests;
+				PRODUCT_NAME = MoWalkTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoWalk.app/MoWalk";
+			};
+			name = Debug;
+		};
+		8D33B08113AABB5607197670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		E9F663715602B2BA123788A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MoWalk/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mowalk.app;
+				PRODUCT_NAME = MoWalk;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EBE52B1DFECFB1F824B7EFA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mowalk.app.tests;
+				PRODUCT_NAME = MoWalkTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoWalk.app/MoWalk";
+			};
+			name = Release;
+		};
+		FADBBD7B51378444A94C2571 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		80D1911D7D25321BCD91CFB9 /* Build configuration list for PBXNativeTarget "MoWalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1474ABF5B70256247746D1CE /* Debug */,
+				E9F663715602B2BA123788A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9787587B080CCC2604AB186E /* Build configuration list for PBXNativeTarget "MoWalkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61828D81C42542EBB97A8C2E /* Debug */,
+				EBE52B1DFECFB1F824B7EFA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D6938EDB309A9463EBA5DA28 /* Build configuration list for PBXProject "MoWalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D33B08113AABB5607197670 /* Debug */,
+				FADBBD7B51378444A94C2571 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FCC6E341F1493A612161AC48 /* Project object */;
+}
