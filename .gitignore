@@ -1,23 +1,51 @@
-# Xcode
-xcuserdata/
-DerivedData/
-xcuserstate/
-*.xcuserstate
-
 # macOS
 .DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+._*
 .AppleDouble
 .LSOverride
-Thumbs.db
+.Spotlight-V100
+.Trashes
 
-# Android (generated)
-android/.gradle/
-android/build/
-android/app/build/
-android/local.properties
+# Android / Gradle
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+*.ap_
+*.jks
+*.keystore
 android/captures/
 
-# IDE
+# Android / IDE
+!.idea/.gitignore
 .idea/
 *.iml
-.vscode/
+*.log
+
+# iOS / Xcode
+*.xcuserdata
+DerivedData/
+Pods/
+.swiftpm/
+*.mode1v3
+*.mode2v3
+*.pbxuser
+*.perspectivev3
+*.xcuserstate
+xcuserstate/
+
+# Kotlin
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Temp
+*.tmp
+*.temp
+.session/
