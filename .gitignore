@@ -1,0 +1,59 @@
+# macOS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+.DS_Store?
+.DS_store
+._*
+.DS_Store?
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Android / Gradle
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+*.ap_
+*.jks
+*.keystore
+.idea/
+*.iml
+*.log
+
+# Android / IDE (keep .idea/.gitignore)
+!.idea/.gitignore
+
+# iOS / Xcode
+*.xcuserdata
+DerivedData/
+Pods/
+.swiftpm/
+*.mode1v3
+*.mode2v3
+*.pbxuser
+*.perspectivev3
+xcuserdata/
+**/*.xcodeproj/project.xcworkspace/xcuserdata/
+**/*.xcworkspace/xcuserdata/
+
+# Kotlin
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Temp
+*.tmp
+*.temp
+.session/
