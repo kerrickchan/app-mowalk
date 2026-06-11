@@ -3,17 +3,11 @@
 Thumbs.db
 ehthumbs.db
 Icon?
-.DS_Store?
-.DS_store
 ._*
 .AppleDouble
 .LSOverride
-Icon
-._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
 
 # Android / Gradle
 .gradle/
@@ -24,12 +18,13 @@ local.properties
 *.ap_
 *.jks
 *.keystore
+android/captures/
+
+# Android / IDE
+!.idea/.gitignore
 .idea/
 *.iml
 *.log
-
-# Android / IDE (keep .idea/.gitignore)
-!.idea/.gitignore
 
 # iOS / Xcode
 *.xcuserdata
@@ -40,9 +35,6 @@ Pods/
 *.mode2v3
 *.pbxuser
 *.perspectivev3
-xcuserdata/
-**/*.xcodeproj/project.xcworkspace/xcuserdata/
-**/*.xcworkspace/xcuserdata/
 *.xcuserstate
 xcuserstate/
 
