@@ -22,6 +22,18 @@ final class DashboardViewModel {
         self.stepService = stepService
         self.healthKit = healthKit
         Task { await loadInitialData() }
+        subscribeToStepUpdates()
+    }
+
+    private func subscribeToStepUpdates() {
+        stepService.onStepUpdate = { [weak self] data in
+            guard let self = self else { return }
+            Task { @MainActor in
+                self.todaySteps = data.steps
+                self.distance = data.distance
+                self.recomputeProgress()
+            }
+        }
     }
 
     func loadInitialData() async {
