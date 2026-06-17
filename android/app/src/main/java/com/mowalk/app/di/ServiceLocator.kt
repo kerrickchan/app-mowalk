@@ -2,6 +2,7 @@ package com.mowalk.app.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
@@ -15,17 +16,23 @@ object ServiceLocator {
 
         appContext = context.applicationContext
 
-        val masterKey = MasterKey.Builder(appContext)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        try {
+            val masterKey = MasterKey.Builder(appContext)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
 
-        preferences = EncryptedSharedPreferences.create(
-            appContext,
-            "mowalk_encrypted_prefs",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+            @Suppress("DEPRECATION")
+            preferences = EncryptedSharedPreferences.create(
+                appContext,
+                "mowalk_encrypted_prefs",
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to initialize encrypted preferences", e)
+            throw RuntimeException("ServiceLocator initialization failed", e)
+        }
     }
 
     fun getApplication(): Context {
@@ -57,4 +64,6 @@ object ServiceLocator {
     fun edit(block: SharedPreferences.Editor.() -> Unit) {
         preferences.edit().apply(block).apply()
     }
+
+    private const val TAG = "ServiceLocator"
 }
