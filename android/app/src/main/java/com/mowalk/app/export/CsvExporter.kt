@@ -2,11 +2,6 @@ package com.mowalk.app.export
 
 import android.content.Context
 import android.content.Intent
-import android.provider.DocumentsContract
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import com.mowalk.app.R
 import com.mowalk.app.data.local.DailyStepEntity
 import com.mowalk.app.data.repository.StepRepository
 import kotlinx.coroutines.Dispatchers
@@ -18,13 +13,9 @@ class CsvExporter {
 
     fun export(
         context: Context,
-        lifecycleOwner: LifecycleOwner,
         repository: StepRepository
     ) {
-        val contract = ActivityResultContracts.CreateDocument("text/csv")
-        lifecycleOwner.lifecycleScope.launchWhenStarted {
-            // This will be called from the UI layer with the ActivityResultLauncher
-        }
+        // Export will be called from the UI layer with the ActivityResultLauncher
     }
 
     suspend fun formatCsv(repository: StepRepository): String {

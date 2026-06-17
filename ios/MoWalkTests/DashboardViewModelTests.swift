@@ -136,4 +136,28 @@ final class DashboardViewModelTests: XCTestCase {
 
         XCTAssertNil(viewModel.error)
     }
+
+    func test_onStepUpdateUpdatesLiveSteps() async {
+        viewModel = makeViewModel()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        let stepData = StepData(steps: 3000, distance: 1.5, floorsAscended: 0)
+        mockStepCounting.onStepUpdate?(stepData)
+        try? await Task.sleep(nanoseconds: 10_000_000)
+
+        XCTAssertEqual(viewModel.todaySteps, 3000)
+        XCTAssertEqual(viewModel.distance, 1.5)
+    }
+
+    func test_onStepUpdateUpdatesProgress() async {
+        mockPersistence.profile = UserProfile(dailyStepGoal: 10000)
+        viewModel = makeViewModel()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        let stepData = StepData(steps: 5000, distance: 2.5, floorsAscended: 0)
+        mockStepCounting.onStepUpdate?(stepData)
+        try? await Task.sleep(nanoseconds: 10_000_000)
+
+        XCTAssertEqual(viewModel.progressPercent, 0.5)
+    }
 }

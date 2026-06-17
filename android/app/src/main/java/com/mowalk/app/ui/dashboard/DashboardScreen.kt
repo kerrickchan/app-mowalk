@@ -7,6 +7,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
+import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -77,7 +79,7 @@ fun DashboardScreen(
                 StatRow(
                     icon = {
                         Icon(
-                            Icons.Default.DirectionsWalk,
+                            Icons.AutoMirrored.Filled.DirectionsWalk,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp),
                             tint = MaterialTheme.colorScheme.primary
@@ -125,7 +127,7 @@ fun DashboardScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        Icons.Default.ShowChart,
+                        Icons.AutoMirrored.Filled.ShowChart,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary
                     )

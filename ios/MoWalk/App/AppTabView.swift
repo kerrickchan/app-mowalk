@@ -32,8 +32,11 @@ struct AppTabView: View {
     @State private var calendarVM: CalendarViewModel
     @State private var settingsVM: SettingsViewModel
 
+    private let persistence: PersistenceService
+    private let stepService = StepCounterService()
+
     init(persistence: PersistenceService) {
-        let stepService = StepCounterService()
+        self.persistence = persistence
         let healthKit = HealthKitService()
 
         _dashboardVM = State(initialValue: DashboardViewModel(
@@ -79,7 +82,10 @@ struct AppTabView: View {
         .tint(MoWalkTheme.accent)
         .onAppear {
             Task {
-                try? await StepCounterService().requestAuthorization()
+                let authorized = await stepService.requestAuthorization()
+                if authorized {
+                    stepService.startForegroundMonitoring(persistence: persistence)
+                }
                 try? await HealthKitService().requestAuthorization()
             }
         }

@@ -41,6 +41,9 @@ targets:
         NSHealthShareUsageDescription: "MoWalk reads your step data from Health to show comprehensive step history."
         NSHealthUpdateUsageDescription: "MoWalk writes your step data to Health so other apps can access it."
         NSMotionUsageDescription: "MoWalk uses motion sensors to count your steps throughout the day."
+        UIBackgroundModes:
+          - fetch
+          - processing
         UIRequiredDeviceCapabilities:
           - arm64
 

@@ -1,10 +1,14 @@
 import CoreMotion
 import Foundation
+import UIKit
 
 final class StepCounterService: @unchecked Sendable {
     private let pedometer = CMPedometer()
-    private let deltaCalculator = StepDeltaCalculator()
+    private var persistence: StepPersistence?
+    private var backgroundTaskID: UIBackgroundTaskIdentifier?
+    private var isMonitoring = false
 
+    var onStepUpdate: ((StepData) -> Void)?
     var isStepCountingAvailable: Bool {
         CMPedometer.isStepCountingAvailable()
     }
@@ -55,30 +59,62 @@ final class StepCounterService: @unchecked Sendable {
         }
     }
 
-    func startUpdates() -> AsyncStream<StepData> {
-        AsyncStream { continuation in
-            let now = Date()
-            let calendar = Calendar.current
-            let startOfDay = calendar.startOfDay(for: now)
+    func startForegroundMonitoring(persistence: StepPersistence) {
+        self.persistence = persistence
+        guard !isMonitoring, isStepCountingAvailable else { return }
+        isMonitoring = true
 
-            pedometer.startUpdates(from: startOfDay) { data, error in
-                guard let data = data, error == nil else { return }
-                let stepData = StepData(
-                    steps: data.numberOfSteps.intValue,
-                    distance: data.distance?.doubleValue ?? 0,
-                    floorsAscended: data.floorsAscended?.intValue ?? 0
-                )
-                continuation.yield(stepData)
-            }
+        let calendar = Calendar.current
+        let now = Date()
+        let startOfDay = calendar.startOfDay(for: now)
 
-            continuation.onTermination = { [weak self] _ in
-                self?.stopUpdates()
-            }
+        pedometer.startUpdates(from: startOfDay) { [weak self] data, error in
+            guard let self = self, let data = data, error == nil else { return }
+            let stepData = StepData(
+                steps: data.numberOfSteps.intValue,
+                distance: data.distance?.doubleValue ?? 0,
+                floorsAscended: data.floorsAscended?.intValue ?? 0
+            )
+            self.handleStepUpdate(stepData)
+        }
+
+        registerBackgroundTask()
+    }
+
+    func stopForegroundMonitoring() {
+        isMonitoring = false
+        pedometer.stopUpdates()
+        endBackgroundTask()
+    }
+
+    private func handleStepUpdate(_ data: StepData) {
+        onStepUpdate?(data)
+
+        guard let persistence = persistence else { return }
+        let today = Date.todayISO
+        let entry = StepEntry(date: today, steps: data.steps, distance: data.distance)
+        do {
+            try persistence.upsert(entry)
+        } catch {
+            print("StepCounterService: failed to persist step data: \(error)")
         }
     }
 
-    func stopUpdates() {
-        pedometer.stopUpdates()
+    private func registerBackgroundTask() {
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+    }
+
+    private func endBackgroundTask() {
+        if let id = backgroundTaskID {
+            UIApplication.shared.endBackgroundTask(id)
+            backgroundTaskID = nil
+        }
+    }
+
+    deinit {
+        stopForegroundMonitoring()
     }
 }
 

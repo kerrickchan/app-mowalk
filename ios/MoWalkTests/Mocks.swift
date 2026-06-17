@@ -37,10 +37,23 @@ final class MockStepCounting: StepCounting, @unchecked Sendable {
     var queryStepsResult: Result<Int, Error> = .success(0)
     var queryDistanceResult: Result<Double, Error> = .success(0)
     var authResult: Bool = true
+    var onStepUpdate: ((StepData) -> Void)?
+    var startForegroundMonitoringCalled = false
+    var stopForegroundMonitoringCalled = false
+    var lastPersistence: StepPersistence?
 
     func queryTodaySteps() async throws -> Int { try queryStepsResult.get() }
     func queryTodayDistance() async throws -> Double { try queryDistanceResult.get() }
     func requestAuthorization() async -> Bool { authResult }
+
+    func startForegroundMonitoring(persistence: StepPersistence) {
+        startForegroundMonitoringCalled = true
+        lastPersistence = persistence
+    }
+
+    func stopForegroundMonitoring() {
+        stopForegroundMonitoringCalled = true
+    }
 }
 
 final class MockHealthData: HealthDataAccess, @unchecked Sendable {

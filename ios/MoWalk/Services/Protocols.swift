@@ -14,9 +14,12 @@ protocol StepPersistence: AnyObject, Sendable {
 
 protocol StepCounting: AnyObject, Sendable {
     var isStepCountingAvailable: Bool { get }
+    var onStepUpdate: ((StepData) -> Void)? { get set }
     func queryTodaySteps() async throws -> Int
     func queryTodayDistance() async throws -> Double
     func requestAuthorization() async -> Bool
+    func startForegroundMonitoring(persistence: StepPersistence)
+    func stopForegroundMonitoring()
 }
 
 protocol HealthDataAccess: AnyObject, Sendable {
